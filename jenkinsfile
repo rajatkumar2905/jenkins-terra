@@ -1,10 +1,20 @@
 pipeline {
-    agent any
-
+    agent label {
+    ansible-node
+}
+environment {
+    AWS_ACCESS_KEY_ID= credentials('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY=credentials('AWS_SECRET_ACCESS_KEY')
+}
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
+            }
+        }
+        stage('Terraform fmt') {
+            steps {
+                sh 'terraform fmt'
             }
         }
         stage('Terraform init') {
@@ -12,11 +22,11 @@ pipeline {
                 sh 'terraform init'
             }
         }
-        stage('Terraform apply') {
+        stage('Terraform action') {
             steps {
-                sh 'terraform apply --auto-approve'
+      echo "Terraform action is --> ${action}"
+                sh ('terraform ${action} --auto-approve')
             }
         }
-        
     }
 }
