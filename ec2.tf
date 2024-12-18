@@ -4,7 +4,7 @@ provider "aws" {
 resource "aws_instance" "myweb12" {
   ami             = "ami-02df5cb5ad97983ba"
   instance_type   = "t3.micro"
-  key_name        = "my-terra-key"
+  key_name        = "my-key-new"
   security_groups = ["allow_tls"]
 
   tags = {
